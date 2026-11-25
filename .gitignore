@@ -1,0 +1,6 @@
+# Competition kit (downloaded bundle) — never part of the entry.
+*-kit/
+# Build / grading output
+out/
+# Local tooling (screenshot harness lives outside the repo)
+/tmp/

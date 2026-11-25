@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ledger — The Rivera Household Budget</title>
+<meta name="description" content="A complete household budget: accounts, spending, monthly budgets with rollover, savings goals, bills and insights — all offline, all yours.">
+<link rel="stylesheet" href="style.css">
+<script type="module" src="app.js"></script>
+</head>
+<body>
+<div class="shell">
+  <nav class="sidebar" aria-label="Main navigation">
+    <div class="brand">
+      <div class="brand-mark">L</div>
+      <div>
+        <div class="brand-name">Ledger</div>
+        <div class="brand-sub">The Rivera Household</div>
+      </div>
+    </div>
+    <div class="nav-label">Money</div>
+    <a class="nav-link" href="#/" data-nav="dashboard"><span class="ico">🏠</span>Dashboard</a>
+    <a class="nav-link" href="#/transactions" data-nav="transactions"><span class="ico">🧾</span>Transactions</a>
+    <a class="nav-link" href="#/budgets" data-nav="budgets"><span class="ico">🎯</span>Budgets</a>
+    <a class="nav-link" href="#/goals" data-nav="goals"><span class="ico">🌱</span>Savings Goals</a>
+    <a class="nav-link" href="#/bills" data-nav="bills"><span class="ico">📅</span>Bills &amp; Recurring <span class="badge" id="bill-badge" hidden></span></a>
+    <div class="nav-label">Understand</div>
+    <a class="nav-link" href="#/insights" data-nav="insights"><span class="ico">💡</span>Insights &amp; Reports</a>
+    <a class="nav-link" href="#/settings" data-nav="settings"><span class="ico">⚙️</span>Settings &amp; Data</a>
+    <div class="sidebar-foot" id="sidebar-foot"></div>
+  </nav>
+  <main class="main" id="app" aria-live="polite"></main>
+</div>
+<div id="modal-root"></div>
+<div id="toast-root"></div>
+</body>
+</html>
