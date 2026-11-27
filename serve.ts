@@ -1,18 +1,19 @@
-// Tiny static server for app/ (Node 22, standard library only).
+// A tiny static server for app/ (Node 22, standard library only).
 // Run `node serve.ts` and open http://localhost:8080 (or --port <n>).
-// Development convenience only — not a server for the internet.
+// A convenience for local development — not a server for the internet.
+
 import { createReadStream, statSync } from 'node:fs';
 import { createServer } from 'node:http';
 import { extname, join, normalize, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const root = resolve(fileURLToPath(new URL('./app', import.meta.url)));
-const args = process.argv.slice(2);
-const portIndex = args.indexOf('--port');
-const requested = portIndex === -1 ? 8080 : Number(args[portIndex + 1]);
-const port = Number.isInteger(requested) && requested > 0 && requested < 65536 ? requested : 8080;
+const appRoot = resolve(fileURLToPath(new URL('./app', import.meta.url)));
+const flags = process.argv.slice(2);
+const portFlag = flags.indexOf('--port');
+const wanted = portFlag === -1 ? 8080 : Number(flags[portFlag + 1]);
+const port = Number.isInteger(wanted) && wanted > 0 && wanted < 65536 ? wanted : 8080;
 
-const MIME = {
+const TYPES = {
   '.html': 'text/html; charset=utf-8',
   '.js': 'text/javascript; charset=utf-8',
   '.mjs': 'text/javascript; charset=utf-8',
@@ -36,25 +37,25 @@ createServer((request, response) => {
     return;
   }
   if (pathname.endsWith('/')) pathname += 'index.html';
-  const file = resolve(join(root, normalize(pathname)));
-  if (!file.startsWith(root + sep) && file !== root) {
+  const file = resolve(join(appRoot, normalize(pathname)));
+  if (!file.startsWith(appRoot + sep) && file !== appRoot) {
     response.writeHead(403).end('forbidden');
     return;
   }
-  let stat;
+  let info;
   try {
-    stat = statSync(file);
+    info = statSync(file);
   } catch {
     response.writeHead(404).end('not found');
     return;
   }
-  if (!stat.isFile()) {
+  if (!info.isFile()) {
     response.writeHead(404).end('not found');
     return;
   }
   response.writeHead(200, {
-    'content-type': MIME[extname(file)] ?? 'application/octet-stream',
-    'content-length': stat.size,
+    'content-type': TYPES[extname(file)] ?? 'application/octet-stream',
+    'content-length': info.size,
   });
   createReadStream(file).pipe(response);
 }).listen(port, () => {
